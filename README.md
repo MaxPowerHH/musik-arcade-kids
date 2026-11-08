@@ -2,19 +2,21 @@
 
 **ARCADE-PWA-FULL02-PWA01-20261108**. Vier Musikübungen mit Julia und Tom. Keine Anmeldung, keine echten Schülerdaten, kein echtes Geld. Die Spielmechanik, Grafik und Audio-Dateien der FULL02-Basis sind unverändert; ergänzt sind nur PWA-Rahmen, Icons und Offline-Auslieferung.
 
-**Hosting ist noch nicht freigeschaltet.** Dieses Repository ist die bereinigte statische Distribution. Ein öffentliches Quell-Repository bedeutet noch keinen freigegebenen GitHub-Pages-Spiel-Link. Es enthält kein Schulplaner-Backend und keine internen Prüfberichte. Eine Veröffentlichung als Website erfordert eine separate Freigabe.
+**Öffentliche Testfassung:** [Musik-Arcade starten](https://maxpowerhh.github.io/musik-arcade-kids/).
 
-## Nach Freigabe als Website bereitstellen
+Dieses Repository ist ausschließlich die bereinigte statische Distribution. Es enthält kein Schulplaner-Backend und keine internen Prüfberichte. Die Website ist für den Kindertest freigegeben; ungeprüfte Geräte und Installationswege bleiben unten ausdrücklich benannt.
 
-1. In diesem eigenständigen Repository unter Settings → Pages die freigegebene Branch und den Root-Ordner wählen. Nicht das Schulplaner-Repository verwenden.
-2. GitHub-Pages-Bereitstellung abwarten und **Enforce HTTPS** kontrollieren. Den tatsächlich von GitHub angezeigten Website-Link verwenden.
-3. Vor Weitergabe auf einem frischen Gerät vollständig testen. Pages ist öffentlich: Ein ungenannter Link ist kein Passwortschutz. Zustimmung und Datenschutzprüfung für die Testgruppe liegen bei den Verantwortlichen.
+## Hosting verwalten
 
-Alle Pfade sind relativ, auch für Projekt-Unterpfade. Keine Domain ist fest einprogrammiert. Keine automatischen Deployment-Workflows sind enthalten. Nur diese Distributionsdateien veröffentlichen, keine privaten Projektdateien dazukopieren.
+1. GitHub Pages ist für dieses eigenständige Repository auf `main` und Root `/` konfiguriert. Freigegebene Änderungen an `main` lösen eine neue Bereitstellung aus. Nicht das Schulplaner-Repository verwenden.
+2. Nach Änderungen den erfolgreichen Pages-Build und **Enforce HTTPS** kontrollieren. Den oben angegebenen HTTPS-Link verwenden.
+3. Vor Weitergabe auf den vorgesehenen Geräten vollständig testen. Pages ist öffentlich: Ein ungenannter Link ist kein Passwortschutz. Zustimmung und Datenschutzprüfung für die Testgruppe liegen bei den Verantwortlichen.
+
+Alle Laufzeitpfade sind relativ, auch für Projekt-Unterpfade. Keine Domain ist im Spiel oder Service Worker fest einprogrammiert. Es gibt keinen eigenen Deployment-Workflow im Quellcode; GitHub verwaltet den Pages-Build. Nur diese Distributionsdateien veröffentlichen, keine privaten Projektdateien dazukopieren.
 
 ## Spielen und installieren
 
-Den später freigegebenen HTTPS-Link öffnen, „Heute üben“ wählen. Notenlesen → Hören → Rhythmus → Quiz → Tagesauswertung. Im Spiel mit „Arcade“ pausieren und später im selben Browser fortsetzen.
+Den HTTPS-Link öffnen, „Heute üben“ wählen. Notenlesen → Hören → Rhythmus → Quiz → Tagesauswertung. Im Spiel mit „Arcade“ pausieren und später im selben Browser fortsetzen.
 
 - iPhone/iPad: in Safari öffnen → Teilen → Zum Home-Bildschirm; je nach System „Als Web-App öffnen“.
 - Android: im unterstützten Browser „App installieren“/„Zum Startbildschirm hinzufügen“.
