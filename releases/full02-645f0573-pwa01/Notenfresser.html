@@ -1,0 +1,208 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Notenfresser – Julia und Tom im Keyboardraum · v0.5</title><style>
+:root{--bg:#10102a;--panel:#1c2246;--light:#f7e8b2;--mint:#5ff4a7;--pink:#ff6b9a;--sky:#83d9ff;--line:#6377ad}*{box-sizing:border-box}body{margin:0;background:repeating-linear-gradient(0deg,#0f102b,#0f102b 5px,#121431 6px);font-family:system-ui,Arial,sans-serif;color:var(--light);min-height:100vh;padding:14px}.wrap{max-width:850px;margin:auto}.head{text-align:center;margin:6px 0 14px}.pixel{font-family:ui-monospace,Consolas,monospace;font-weight:1000;letter-spacing:.07em;text-shadow:4px 4px #4b2461}.head h1{color:var(--mint);font-size:clamp(27px,6vw,46px);margin:0}.head p{margin:3px 0;color:#c5c8e2}.card{background:var(--panel);border:3px solid #7388bf;box-shadow:6px 6px 0 #090a1d;padding:14px;margin:0 0 14px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}.controls label{font-size:13px;color:#e0e2f3;font-weight:700}.controls select{width:100%;margin-top:5px;padding:11px;border:2px solid #96a8e0;border-radius:4px;background:#131931;color:white;font-size:16px}.score{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}.score strong{display:block;color:var(--mint);font-size:27px}.score small{display:block;color:#c6d0ea;font-size:12px}.stage{text-align:center;position:relative}.question{font-size:18px;font-weight:700;margin:4px 0 6px}.staff{width:100%;max-width:540px;display:block;margin:0 auto;background:#f7f2dd;border:4px solid #d4bda1;border-radius:3px;image-rendering:pixelated}.hint{color:#d0d7f1;font-size:13px;margin:9px 0 0}.message{min-height:36px;font-size:20px;font-weight:900;margin:13px 0 2px;color:var(--sky)}.keyboard{display:flex;justify-content:center;gap:6px;touch-action:manipulation;margin:16px 0 9px}.key{background:#fcf4da;color:#172144;border:0;border-bottom:8px solid #a8aac0;border-radius:3px;flex:1;max-width:95px;min-height:105px;font-size:22px;font-weight:900;cursor:pointer;touch-action:manipulation}.key:active,.key.pressed{transform:translateY(5px);border-bottom-width:3px;background:#b2ffe0}.key small{display:block;font-size:12px;font-weight:600}.buttons{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.btn{background:var(--mint);color:#131a30;border:0;border-bottom:5px solid #278761;padding:12px 17px;font-size:15px;font-weight:900;cursor:pointer;border-radius:3px}.btn.alt{background:var(--sky);border-bottom-color:#3d7794}.btn:active{transform:translateY(3px);border-bottom-width:2px}.meter{height:13px;background:#0a1028;border:2px solid #8896ba;margin:10px auto 3px;max-width:540px}.meter div{height:100%;width:100%;background:var(--mint);transition:width .1s linear}.footer{font-size:12px;text-align:center;color:#b6bddc;margin:16px 0}.ghost{opacity:.75}@media(max-width:480px){body{padding:8px}.card{padding:10px;box-shadow:3px 3px 0 #090a1d}.key{min-height:93px;font-size:18px}.key small{font-size:11px}.score strong{font-size:23px}.question{font-size:16px}}
+
+
+/* v0.3: story-layer only; music staff retained from 0.2 */
+.story{position:relative;height:178px;margin:10px auto 14px;overflow:hidden;border:3px solid #5968a0;background:linear-gradient(#1c1a42 0%,#2b2555 67%,#252544 68%,#202138 100%);max-width:700px;image-rendering:pixelated}
+.story:before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 41px,#4c4b7b55 42px 45px,transparent 46px 84px);opacity:.35;pointer-events:none}
+.story .road{position:absolute;bottom:0;height:20px;width:100%;border-top:5px solid #6ee1bd;background:repeating-linear-gradient(90deg,#3a3057 0 24px,#625478 24px 32px);}
+.sprite{position:absolute;bottom:13px;width:auto;height:144px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(3px 3px 0 #080914);transition:left .28s steps(5),transform .18s steps(2)}
+#julia{left:39%}#tom{left:7%;height:130px}#tom.cheer{transform:translateY(-7px)}#julia.run{transform:translateX(10px) translateY(-6px)}
+.story .caption{position:absolute;right:9px;top:8px;z-index:2;background:#101024d9;border:2px solid #9d92d7;padding:5px 8px;font:700 11px monospace;color:#fff3c2}
+.story .level{position:absolute;left:9px;top:8px;z-index:2;background:#101024d9;border:2px solid #8eeac6;padding:5px 8px;font:700 12px monospace;color:#8effc4}
+.roundline{display:flex;justify-content:space-between;align-items:center;max-width:540px;margin:0 auto 8px;font:800 13px ui-monospace,monospace}
+.roundbar{height:18px;background:#0a1028;border:2px solid #8896ba;max-width:540px;margin:0 auto 10px;position:relative}
+.roundbar>div{height:100%;width:0%;background:repeating-linear-gradient(90deg,#5ff4a7 0 15px,#44c58a 15px 19px);transition:width .2s steps(20)}
+.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:8;background:#0c0e28f0;padding:18px}
+.overlay[hidden]{display:none}.endcard{border:4px solid #74e6bc;background:#20264d;box-shadow:7px 7px 0 #08091b;padding:21px;max-width:440px;width:100%;text-align:center}
+.endcard h2{font:1000 clamp(23px,5vw,34px) ui-monospace,monospace;color:#5ff4a7;margin:0 0 12px;text-shadow:3px 3px #452d6d}
+.endcard p{line-height:1.5}.endcard .btn{margin:4px}.scene{position:relative}.stage .meter{margin-top:8px}
+@media(max-width:460px){.story{height:142px}.sprite{height:111px}#tom{height:102px}.story .caption{font-size:9px}.story .level{font-size:10px}}
+
+/* v0.6: story presentation; game balance stays identical */
+.story .room{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 20%,#786c9660 20% 23%,transparent 23% 75%,#786c9660 75% 78%,transparent 78%);opacity:.45}
+.story .door{position:absolute;right:8%;bottom:20px;width:53px;height:105px;border:7px solid #8972ae;background:#181c3a;box-shadow:inset -5px 0 #655483}
+.story .door::after{content:'';position:absolute;left:7px;top:50px;width:6px;height:6px;background:#edcf79}
+.story .music-stand{position:absolute;bottom:20px;left:22%;height:50px;width:7px;background:#859ec1}
+.story .music-stand::before{content:'♫';position:absolute;left:-17px;top:-25px;color:#fff7d6;background:#2c3761;border:3px solid #8f9cc7;width:45px;height:33px;font-size:21px;text-align:center}
+#sceneDialogue{max-width:700px;margin:0 auto 8px;border-left:5px solid #83d9ff;background:#111638;padding:8px 12px;text-align:left;font:800 13px/1.5 ui-monospace,monospace;min-height:38px;color:#fff2c8}
+.story .event{position:absolute;z-index:5;left:42%;top:35px;background:#fff4ca;color:#25244b;box-shadow:4px 4px #070c26;border:3px solid #ec8cbd;font:900 12px/1.4 ui-monospace,monospace;padding:7px;max-width:185px;opacity:0;pointer-events:none}
+.story .event.visible{animation:event-popup 1.3s steps(3) both}
+@keyframes event-popup{0%{opacity:0;transform:translateY(10px)}16%,78%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-8px)}}
+.story.caught{animation:scene-shake .28s steps(3) 2}
+.story.caught #tom,.story.caught #julia{transition:none!important;animation:characters-fall .95s cubic-bezier(.5,-.2,.7,.8) forwards!important}
+.story.caught #tom{animation-delay:.11s!important}
+.story.caught #julia{animation-delay:0s!important}
+.story.escaped #julia{transition:none!important;animation:julia-escape 1s steps(8) forwards!important}
+.story.escaped #tom{transition:none!important;animation:tom-retreat 1s steps(7) forwards!important}
+@keyframes scene-shake{0%{transform:translateX(0)}50%{transform:translateX(5px)}100%{transform:translateX(-4px)}}
+@keyframes characters-fall{0%{transform:translateY(0) rotate(0);opacity:1}35%{transform:translateY(-20px) rotate(12deg);opacity:1}100%{transform:translateY(230px) rotate(45deg);opacity:0}}
+@keyframes julia-escape{0%{transform:translate(0,0)}35%{transform:translate(22px,-45px)}65%{transform:translate(65px,-22px)}100%{transform:translate(210px,20px)}}
+@keyframes tom-retreat{0%{transform:translateX(0)}100%{transform:translateX(-120px)}}
+.overlay{position:fixed;inset:0;z-index:40;overflow:auto}
+#nextLevel[hidden]{display:none}
+@media(prefers-reduced-motion:reduce){.story.caught #tom,.story.caught #julia,.story.escaped #tom,.story.escaped #julia{animation-duration:.1s!important}.story .event.visible{animation-duration:.1s}}
+
+/* v0.5: use the approved original pixel assets, not replacement drawings. */
+.story{height:210px;background:linear-gradient(#3a356b 0%,#4b3b75 64%,#4d3559 65%,#352f51 100%)}
+#tom{height:172px;bottom:12px;filter:drop-shadow(3px 3px 0 #18102c) brightness(1.08)}
+#julia{height:176px;bottom:12px}
+
+
+.story .caption{right:6px;top:37px;background:#312343e8;color:#ffe3a0;border-color:#f8b6d0}
+.story .level{left:6px;top:6px}
+#sceneDialogue{border-color:#ffcb78;background:#262547;color:#fff5d9}
+.story.caught #tom{animation:none!important;opacity:1!important;transform:none!important}
+.story.caught #julia{animation:characters-fall .95s cubic-bezier(.5,-.2,.7,.8) forwards!important}
+.story.escaped #tom{animation:tom-cheer 1s steps(4) forwards!important}
+@keyframes tom-cheer{0%{transform:translateY(0)}35%{transform:translateY(-20px) rotate(-5deg)}60%{transform:translateY(0)}85%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+@media(max-width:460px){.story{height:182px}#tom{height:145px}#julia{height:152px}}
+.story{height:240px}.story .door{right:2%;opacity:.7}.sprite{height:190px!important;width:26%;object-fit:contain;object-position:center bottom;filter:none!important;bottom:10px!important}.sprite#tom{left:7%;height:190px!important}.sprite#julia{left:39%;height:195px!important}.story .road{z-index:3;opacity:.6}.story .caption{top:29px}.story .event{top:58px;left:39%}.story.escaped #julia,.story.escaped #tom{animation:friends-cheer .8s steps(4) both!important}.story.caught #julia,.story.caught #tom{animation:friends-encourage .8s steps(3) both!important;opacity:1!important}.sprite.run,.sprite.cheer{transform:translateY(-7px)}@keyframes friends-cheer{30%{transform:translateY(-20px)}70%{transform:translateY(-8px)}100%{transform:translateY(0)}}@keyframes friends-encourage{30%{transform:translateY(-7px)}65%{transform:translateY(2px)}100%{transform:translateY(0)}}
+@media(max-width:480px){.story{height:170px}.sprite,.sprite#tom,.sprite#julia{height:130px!important;width:30%}.story .door{height:79px;width:40px}.story .caption{top:31px;font-size:9px}}
+.piano-wrap{max-width:560px;margin:10px auto 15px}.piano-keys{position:relative;display:flex;height:155px;touch-action:manipulation;user-select:none}.piano-key{font-family:system-ui;cursor:pointer;touch-action:manipulation}.piano-key.white{flex:1;min-width:0;background:#f9f7ef;color:#172144;border:2px solid #34364a;border-radius:0 0 8px 8px;display:flex;justify-content:center;align-items:end;padding-bottom:8px;font-weight:900;font-size:16px}.piano-key.black{position:absolute;top:0;width:8%;height:60%;z-index:3;background:#161821;color:white;border:2px solid #05050b;border-radius:0 0 6px 6px;font-size:11px}.piano-key:active,.piano-key.pressed{background:#8adfc2!important;color:#162333!important}.piano-key:disabled{opacity:.75;cursor:default}.audio-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:8px auto}.audio-controls label{font-size:13px}.audio-controls select{font:inherit;padding:7px;background:#202b48;color:white;border:1px solid #8fa5d0;border-radius:4px}@media(max-width:480px){.piano-keys{height:116px}.piano-key.white{font-size:12px;padding-bottom:6px}.piano-key.black{font-size:10px}}
+.cameos{display:flex;justify-content:center;gap:10px;padding:4px;margin:4px auto}.cameos figure{margin:0;display:flex;align-items:center;gap:7px;font-size:11px;color:#e9dbaa}.cameos img{width:36px;height:49px;object-fit:contain;}@media(max-width:460px){.cameos figure{font-size:9px}.cameos img{width:30px;height:42px}}
+.daily-mode .cameos{display:none}.daily-mode .controls{display:none}.daily-mode .head{margin-bottom:6px}.daily-mode .card{margin-bottom:8px;padding:9px}
+.runner-monster{position:absolute;z-index:2;left:21%;bottom:20px;width:44px;height:60px;background:#8ddb74;color:#22344e;border:3px solid #172a48;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:900 28px monospace;transition:left .25s steps(4)}
+.runner-monster small{font-size:10px}.runner-monster.near{background:#ffcb76;outline:2px solid #ff829e}
+@media(max-width:480px){.runner-monster{width:32px;height:42px;font-size:19px;bottom:16px}}
+@media(prefers-reduced-motion:reduce){.runner-monster{transition:none}}
+.runner-monster{width:56px;height:68px;background:transparent;border:0;border-radius:0}.runner-monster.near{background:transparent;outline:0}.runner-monster.near .monster-body,.runner-monster.angry .monster-body{fill:#f66d83}.runner-monster.stumble{animation:monster-stumble .85s steps(5)}@keyframes monster-stumble{25%{transform:translateY(8px) rotate(20deg)}65%{transform:translateY(22px) rotate(55deg)}100%{transform:translateY(0) rotate(0)}}.daily-mode #restart,.daily-mode #quit{display:none}.daily-mode .footer{font-size:12px}@media(prefers-reduced-motion:reduce){.runner-monster.stumble{animation:none;outline:3px solid #ffe088}}
+</style></head><body><main class="wrap"><header class="head"><h1 class="pixel">♪ NOTENFRESSER ♪</h1><p class="tiny build-id">ARCADE-KANDIDAT-20261108-FULL02 · NICHT ABGENOMMEN</p><p>Kapitel 1 · Julia und die letzte Musikstunde · Keyboardraum</p></header><section class="card controls"><label>Tonraum<select id="range"><option value="3">Start · 3 Töne (C D E)</option><option value="5">Weiter · 5 Töne (C D E F G)</option></select></label><label>Tempo<select id="speed"><option value="0">Gemütlich · kein Zeitlimit</option><option value="1">Locker · 12 Sekunden</option><option value="2">Flott · 8 Sekunden</option><option value="3">Arcade · 5 Sekunden</option></select></label></section><section class="card score"><div><strong id="points">0</strong><small>PUNKTE</small></div><div><strong id="hits">0/0</strong><small>RICHTIG / VERSUCHE</small></div><div><strong id="stars">0</strong><small>DEMO-STERNE</small></div></section><section class="card stage"><section class="story" aria-label="Julia spielt Noten, während Pixel-Tom sie freundlich anfeuert"><div class="room" aria-hidden="true"></div><div class="door" aria-hidden="true"></div><div class="music-stand" aria-hidden="true"></div><span class="event" id="storyEvent" aria-live="polite"></span><span class="level" id="level">LEVEL 1</span><span class="caption" id="storytext">JULIA & TOM, LOS!</span><img alt="Freundlicher Pixel-Tom mit gut sichtbaren Augen und Lächeln" class="sprite" id="tom" src="tom_sprite.png"><img alt="Julias Original-Pixelfigur in glitzerndem Oberteil, beide Beine sichtbar" class="sprite" id="julia" src="julia_sprite.png"><div id="runnerMonster" class="runner-monster" role="img" aria-label="Freches Notenmonster mit Augen und Zähnen"><svg viewBox="-2 -10 52 58" width="56" height="64" aria-hidden="true" shape-rendering="crispEdges"><g stroke="#172a48" stroke-width="2"><rect class="monster-body" x="0" y="0" width="48" height="43" fill="#8ddb74"/><rect class="monster-body" x="7" y="-8" width="34" height="12" fill="#8ddb74"/></g><rect x="8" y="10" width="12" height="12" fill="white"/><rect x="28" y="10" width="12" height="12" fill="white"/><rect x="14" y="13" width="5" height="7" fill="#172a48"/><rect x="34" y="13" width="5" height="7" fill="#172a48"/><path d="M8 29H40V37H8Z" fill="#172a48"/><path d="M12 29v5m10-5v5m10-5v5" stroke="white" stroke-width="5"/></svg></div><div class="road"></div></section><div class="cameos" aria-label="Bandmitglieder warten auf Julia und Tom"><figure><img src="naemi_sprite.png" alt="Naemi, Rock & Roll"><figcaption>Naemi wartet auf die Bandprobe</figcaption></figure><figure><img src="sophia_sprite.png" alt="Sophia, lila Jacke"><figcaption>Sophia hilft später beim Festival</figcaption></figure></div><div id="sceneDialogue" aria-live="polite">TOM: „Nur noch zehn Noten, Julia. Ich helfe dir!“ – JULIA: „Dann los!“</div><div class="roundline"><span>RUNDE <span id="roundno">1</span> · <span id="progress">0 / 10</span> NOTEN</span><span id="roundstatus">LOS!</span></div><div class="roundbar" role="progressbar" aria-label="Fortschritt der Spielrunde" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="roundbar"><div id="roundfill"></div></div><div class="question">Welche Note ist das?</div><svg class="staff" viewBox="0 0 540 230" role="img" aria-label="Notensystem mit einer Note"><rect width="540" height="230" fill="#f7f2dd"/><g id="lines" stroke="#27324f" stroke-width="2.5"><path d="M22 62 H518 M22 82 H518 M22 102 H518 M22 122 H518 M22 142 H518"/></g><g fill="#242a44" aria-label="Violinschlüssel"><path d="M314 801Q300 854 291.0 906.0Q282 958 282 1012Q282 1059 288.5 1100.5Q295 1142 307 1177Q320 1217 341.0 1252.5Q362 1288 385.5 1311.0Q409 1334 427 1334Q451 1334 493 1249Q514 1206 524.0 1156.0Q534 1106 534 1049Q534 978 515.0 907.5Q496 837 459.5 775.0Q423 713 372 666L407 498Q422 500 432.0 501.0Q442 502 447 502Q508 502 556.0 467.5Q604 433 632.5 377.0Q661 321 661 254Q661 177 621.5 115.5Q582 54 503 25Q508 8 532 -117Q538 -147 541.0 -164.5Q544 -182 545.0 -195.0Q546 -208 546 -225Q546 -275 521.5 -314.5Q497 -354 455.5 -376.0Q414 -398 363 -398Q311 -398 271.0 -378.5Q231 -359 208.0 -324.5Q185 -290 185 -245Q185 -197 211.5 -165.0Q238 -133 287 -133Q329 -133 355.5 -163.5Q382 -194 382 -236Q382 -272 357.0 -299.0Q332 -326 292 -326H282Q308 -365 364 -365Q433 -365 472.0 -320.0Q511 -275 511 -205Q511 -188 507.0 -159.5Q503 -131 493 -91Q483 -51 477.5 -25.0Q472 1 470 12Q436 2 390 2Q304 2 222 52Q142 102 96.0 184.0Q50 266 50 361Q50 451 91 530Q132 609 192.5 675.0Q253 741 314 801ZM341 826Q364 838 390.0 870.5Q416 903 440.0 945.0Q464 987 479.0 1029.5Q494 1072 494 1106Q494 1142 483.0 1163.0Q472 1184 445 1184Q421 1184 398.5 1162.0Q376 1140 358.5 1103.5Q341 1067 331.0 1022.0Q321 977 321 930Q321 898 327.5 872.0Q334 846 341 826ZM398 379Q371 373 347.0 353.5Q323 334 308.5 306.5Q294 279 294 248Q294 223 307.0 196.5Q320 170 339 154Q352 142 365 136Q380 129 380 123Q380 120 370 117Q332 126 301.5 151.0Q271 176 253.5 211.5Q236 247 236 287Q236 330 253.5 370.0Q271 410 302.5 442.0Q334 474 374 490L345 641Q229 547 174.5 456.5Q120 366 120 277Q120 212 154.0 156.0Q188 100 247.0 65.5Q306 31 380 31Q400 31 420.5 35.0Q441 39 464 45ZM495 55Q593 97 593 227Q593 270 571.0 305.5Q549 341 512.0 362.0Q475 383 429 383Z" transform="translate(38 149) scale(.09 -.09)"/></g><g id="note"><ellipse cx="285" cy="142" rx="17" ry="12" transform="rotate(-22 285 142)" fill="#172547"/><path d="M301 141 V80" stroke="#172547" stroke-width="4"/></g><g id="ledger" stroke="#172547" stroke-width="2.4"></g><g id="monster" visibility="hidden" transform="translate(432 163)"><rect x="0" y="0" width="48" height="43" fill="#6bcb82"/><rect x="7" y="-8" width="34" height="12" fill="#6bcb82"/><rect x="10" y="12" width="8" height="8" fill="#18233b"/><rect x="29" y="12" width="8" height="8" fill="#18233b"/><path d="M10 30H38" stroke="#18233b" stroke-width="6"/><path d="M15 30v5m10-5v5m10-5v5" stroke="white" stroke-width="3"/></g><text id="bubble" x="453" y="150" font-family="monospace" font-size="13" font-weight="bold" fill="#39516a" text-anchor="middle">LECKER!</text></svg><div class="meter" aria-label="Verbleibende Zeit"><div id="bar"></div></div><p class="hint" id="hint">Tippe auf die passende Klaviertaste.</p><div class="message" id="message" aria-live="polite">Bereit? Los geht's!</div><div class="audio-controls"><label>Klang <select id="timbre"><option value="piano">Piano (Synthese)</option><option value="dx7">DX7-artiges E-Piano</option></select></label><button type="button" class="btn alt" id="midiConnect">USB-MIDI verbinden</button><span id="audioHint" class="hint">Sound ist an. Der Browser startet ihn beim ersten Tastendruck.</span></div><div class="piano-wrap"><div class="piano-keys" id="keyboard" role="group" aria-label="Bildschirmklavier C4 bis C5, einschließlich schwarzen Tasten"></div></div><div class="buttons"><button class="btn alt" id="pause">Pause</button><button class="btn" id="restart">Level wiederholen</button><button class="btn alt" id="quit">← Zur Arcade</button><button class="btn alt" id="sound" aria-pressed="true">Ton: an</button></div></section><p class="hint" id="saveStatus">Lokaler Testspielstand · nur dieses Gerät und Browserprofil · kein Kontosync</p><p class="hint">Freigeschaltetes Level: <strong id="savedLevel">1</strong>. Level wiederholen löscht den Spielstand nicht.</p><div class="overlay" id="finish" hidden><div class="endcard"><h2 id="finishTitle">LEVEL GESCHAFFT!</h2><p id="finishText"></p><button class="btn" type="button" id="nextLevel">Nächstes Level ▶</button><button class="btn alt" type="button" id="again">Level wiederholen</button><button class="btn alt" type="button" id="exitRound">← Zur Arcade</button></div></div><p class="footer">Offline-Arbeitskopie · nicht abgenommen · keine Anmeldung, keine Schülerdaten, kein echtes Geld · Tastatur: 1–5 · 5 Noten im täglichen Üben · 10 nur im klassischen Level · im Anfängerlevel kein Verfolger · Teamwork mit Tom</p></main><script src="arcade_audio.js"></script><script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s),notes=[{name:'C',midi:60,y:162},{name:'D',midi:62,y:152},{name:'E',midi:64,y:142},{name:'F',midi:65,y:132},{name:'G',midi:67,y:122}],times=[Infinity,12000,8000,5000];
+let range=3,speed=0,target=0,points=0,correct=0,attempts=0,weak=[1,1,1,1,1],paused=false,locked=false,roundEnd=false,sound=true,ctx=null,remaining=Infinity,last=0,frame=0,shown=0,round=1,answerCount=0,nextAt=0,previous=-1,juliaPos=43,tomPos=12,wasCaught=false,closing=false,endingTimer=0,unlocked=1,awarded=[],monsterGap=18; const DAILY_MODE=new URLSearchParams(location.search).get('arcade_daily')==='1'; const LEVEL_SIZE=DAILY_MODE?5:10; let answers=[],runId=null,restoredRun=null,waitingContext=DAILY_MODE&&window.parent&&window.parent!==window; if(DAILY_MODE&&document.body)document.body.classList.add('daily-mode');
+// No position-triggered defeats: mentor contact never finalizes a level.
+// An incomplete round is restarted on exit; earned level rewards stay saved.
+const SAVE_KEY='lohnemusik.arcade.notenfresser.v3'; // same key as v0.3: no lost test progress
+function broadcast(){try{window.parent.postMessage({type:'notenfresser-progress',level:unlocked,points,chapter:Math.min(3,Math.floor((unlocked-1)/3)+1)},'*')}catch(e){}}
+function loadProgress(){try{const x=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(!x||x.version!==3)return;unlocked=Math.min(99,Math.max(1,Math.floor(Number(x.unlocked)||1)));round=unlocked;points=Math.max(0,Math.floor(Number(x.points)||0));awarded=Array.isArray(x.awarded)?x.awarded.filter(n=>Number.isInteger(n)&&n>=1&&n<100):[];document.querySelector('#range').value=round>1?'5':'3'}catch(e){$('#saveStatus').textContent='Speicherung nicht verfügbar: nur dieser Spielstart';}}
+function saveProgress(){if(DAILY_MODE)return;try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:3,unlocked,points,awarded}));$('#saveStatus').textContent='Testspielstand lokal gespeichert · Level '+unlocked;broadcast();}catch(e){$('#saveStatus').textContent='Speicherung blockiert: Fortschritt nur in diesem Fenster';}}
+function audio(midi){if(sound)ArcadePiano.playMidi(midi,$('#timbre').value)}
+function weightedNext(){const a=[];for(let i=0;i<range;i++)for(let w=0;w<Math.min(6,Math.max(1,weak[i]));w++)a.push(i);let n=a[Math.floor(Math.random()*a.length)];if(range>1&&n===previous&&Math.random()<.7){const b=a.filter(x=>x!==previous);if(b.length)n=b[Math.floor(Math.random()*b.length)]}target=n;previous=n;draw()}
+const pianoLayout=[
+ {midi:60,name:'C',idx:0},{midi:61,name:'C♯',black:0},
+ {midi:62,name:'D',idx:1},{midi:63,name:'D♯',black:1},
+ {midi:64,name:'E',idx:2},{midi:65,name:'F',idx:3},
+ {midi:66,name:'F♯',black:3},{midi:67,name:'G',idx:4},
+ {midi:68,name:'G♯',black:4},{midi:69,name:'A',idx:5},
+ {midi:70,name:'A♯',black:5},{midi:71,name:'H',idx:6},
+ {midi:72,name:'C5',idx:7}];
+function renderKeys(){
+ const piano=$('#keyboard');piano.innerHTML='';
+ for(const key of pianoLayout.filter(k=>k.idx!==undefined)){
+  const b=document.createElement('button');b.className='piano-key white';b.type='button';
+  b.textContent=key.name;b.setAttribute('aria-label','Klaviertaste '+key.name);
+  b.disabled=key.idx>=range; b.addEventListener('click',()=>pianoPress(key));piano.append(b);
+ }
+ for(const key of pianoLayout.filter(k=>k.black!==undefined)){
+  const b=document.createElement('button');b.className='piano-key black';b.type='button';
+  b.textContent=key.name;b.setAttribute('aria-label','schwarze Klaviertaste '+key.name);
+  b.style.left='calc('+((key.black+1)/8*100)+'% - 4%)';
+  b.addEventListener('click',()=>pianoPress(key));piano.append(b);
+ }
+}
+let midiAccess=null;
+function midiEvent(event){
+ const [status,note,velocity]=event.data;const command=status&0xf0;
+ if(command!==0x90||velocity===0)return;
+ const key=pianoLayout.find(k=>k.midi===note);
+ if(key)pianoPress(key);
+}
+async function connectMidi(){
+ if(!navigator.requestMIDIAccess){$('#audioHint').textContent='MIDI hier nicht verfügbar; Touch-Klaviatur funktioniert.';return;}
+ try{
+  midiAccess=await navigator.requestMIDIAccess();
+  for(const input of midiAccess.inputs.values())input.onmidimessage=midiEvent;
+  midiAccess.onstatechange=()=>{for(const input of midiAccess.inputs.values())input.onmidimessage=midiEvent};
+  $('#audioHint').textContent='MIDI-Eingang verbunden (falls angeschlossen)';
+ }catch(e){$('#audioHint').textContent='Keine MIDI-Berechtigung. Touch funktioniert weiter.';}
+}
+function pianoPress(key){
+ if(paused||locked||roundEnd)return;
+ if(key.idx===undefined||key.idx>=range){audio(key.midi);$('#audioHint').textContent='Tipp: Für diese Runde zählen die weißen Tasten C bis '+notes[range-1].name+'.';return;}
+ guess(key.idx);
+}
+
+function draw(){const n=notes[target];$('#note').innerHTML='<ellipse cx="285" cy="'+n.y+'" rx="17" ry="12" transform="rotate(-22 285 '+n.y+')" fill="#172547"/><path d="M301 '+n.y+'V'+(n.y-62)+'" stroke="#172547" stroke-width="4"/>';$('#ledger').innerHTML=n.y===162?'<path d="M260 162H311"/>':'';$('#message').textContent='Welche Taste passt?';$('#message').style.color='var(--sky)';remaining=times[speed];$('#bar').style.width='100%';$('#hint').textContent=speed===0?'Ohne Zeitdruck. Du schaffst das!':'Zeit läuft – du kannst jederzeit pausieren.';renderKeys();checkpoint()}
+function score(){
+ $('#points').textContent=points;
+ $('#hits').textContent=correct+'/'+attempts;
+ $('#stars').textContent=Math.floor(points/1000);
+ $('#progress').textContent=shown+' / '+LEVEL_SIZE;
+ $('#roundfill').style.width=(shown/LEVEL_SIZE*100)+'%';
+ $('#roundbar').setAttribute('aria-valuenow',String(shown));$('#roundbar').setAttribute('aria-valuemax',String(LEVEL_SIZE));
+ $('#roundno').textContent=round;
+ $('#level').textContent='LEVEL '+round;$('#savedLevel').textContent=unlocked;
+}
+function motion(ok){
+ // Two friends make progress side by side; Tom is never the pursuer.
+ const dialogue=$('#sceneDialogue');
+ dialogue.textContent=ok?'TOM: „Super, Julia! Gemeinsam kommen wir weiter!“':'TOM: „Kein Problem, wir üben die Note noch einmal!“';
+ const julia=$('#julia'),tom=$('#tom');
+ julia.classList.toggle('run',ok);tom.classList.toggle('cheer',ok);
+ const step=(shown/LEVEL_SIZE)*8;  // mild, coordinated progress, no chase / no catch
+ julia.style.left=(39+step).toFixed(1)+'%';tom.style.left=(7+step).toFixed(1)+'%';
+ monsterGap=Math.max(5,Math.min(32,monsterGap+(ok?3:-5)));
+ const chaser=$('#runnerMonster'); chaser.style.left=(39+step-monsterGap).toFixed(1)+'%';chaser.classList.toggle('near',monsterGap<=12);chaser.classList.remove('stumble','angry');void chaser.offsetWidth;chaser.classList.add(ok?'stumble':'angry');chaser.setAttribute('aria-label',ok?'Das Notenmonster stolpert – Tom und Julia kommen weiter!':'Das Notenmonster nähert sich. Tom hilft Julia.');
+ wasCaught=false;
+ $('#storytext').textContent=ok?'GEMEINSAM: GUT GEMACHT!':'GEMEINSAM WEITER ÜBEN!';
+}
+
+function showEnding(passed){
+ const scene=$('.story');scene.classList.remove('caught','escaped');void scene.offsetWidth;
+ scene.classList.add(passed?'escaped':'caught');
+ $('#storytext').textContent=passed?'JULIA & TOM: TEAMWORK! ★':'TOM: NOCHMAL ZUSAMMEN!';
+ const ev=$('#storyEvent');ev.classList.remove('visible');ev.textContent=passed?'♫ ♪ ♫':'TOM: Du schaffst das!';ev.classList.add('visible');
+ $('#sceneDialogue').textContent=DAILY_MODE?'TOM: „Die Noten-Etappe ist geschafft! Weiter zur Gehörbildung.“':passed?(round<3?'JULIA: „Geschafft! Tom, wir gehen zum nächsten Level!“':round<6?'TOM: „Super! Dein Notenlesen wird immer sicherer!“':'JULIA: „Wir üben weiter – Schritt für Schritt!“'):'TOM: „Kein Problem. Wir versuchen es zusammen noch einmal!“';
+ $('#roundstatus').textContent=passed?'ZIEL!':'WIEDERHOLEN';
+ $('#finishTitle').textContent=DAILY_MODE?'TAGESÜBUNG GESCHAFFT!':passed?'LEVEL '+round+' GESCHAFFT!':'LEVEL NICHT GESCHAFFT';
+ $('#finishText').textContent=DAILY_MODE?(correct+' von 5 Noten richtig. Du hast die Tagesetappe beendet; hierfür gilt noch keine Bestehensquote. Weiter geht es im Hub.'):correct+' von '+LEVEL_SIZE+' Noten richtig. '+(passed?'Nächstes Level freigeschaltet!':'Du brauchst mindestens 8 richtige. Versuch es noch einmal.')+' Gesicherte Punkte: '+points+'.';
+ $('#nextLevel').hidden=DAILY_MODE||!passed;
+ // Ergebnis ist SOFORT sichtbar; Animation darf den Abschluss niemals blockieren.
+ $('#finish').hidden=!!(DAILY_MODE&&window.parent&&window.parent!==window);
+}
+function finish(){
+ if(roundEnd)return;
+ roundEnd=true;locked=true;paused=false;nextAt=0;closing=true;
+ $('#pause').disabled=true;
+ const passed=shown===LEVEL_SIZE&&(DAILY_MODE||correct>=8);
+ // Rewards once per successfully completed level, independent of click speed / retry.
+ if(passed&&!DAILY_MODE){unlocked=Math.max(unlocked,round+1);if(!awarded.includes(round)){awarded.push(round);points+=100;}}
+ saveProgress();score();showEnding(passed);
+ try{window.parent.postMessage({type:'arcade-round-finished',kind:'notes',hits:correct,total:shown,answers,runId},'*')}catch(e){}
+}
+function result(ok,timeout=false,chosen=''){ 
+ if(paused||locked||roundEnd)return;
+ locked=true;attempts++;shown++;const n=notes[target];answers.push({id:'note-'+shown,prompt:'Welche Taste gehört zur gezeigten Note?',ok,chosen:timeout?'Zeit abgelaufen':chosen,expected:n.name,detail:timeout?'Zeit abgelaufen':''});
+ if(ok){correct++;weak[target]=Math.max(1,weak[target]-1);$('#message').textContent='RICHTIG! '+n.name;$('#message').style.color='var(--mint)';$('#bubble').textContent='MAMPF!';}
+ else{weak[target]=Math.min(6,weak[target]+2);$('#message').textContent=timeout?'Zeit abgelaufen! Das war '+n.name+'.':'Fast! Das war '+n.name+'.';$('#message').style.color='var(--pink)';$('#bubble').textContent='DU SCHAFFST DAS!';}
+ audio(n.midi);score();motion(ok);checkpoint();
+ // Never wait on position, animation timer or next question after the 10th answer.
+ if(shown>=LEVEL_SIZE){if(DAILY_MODE)nextAt=performance.now()+1100;else finish();return;}
+ if(ok&&(shown===3||shown===7))distraction(shown);
+ $('#roundstatus').textContent=(LEVEL_SIZE-shown)+' ÜBRIG';
+ nextAt=performance.now()+(ok?350:550);
+}
+function distraction(step){
+ const e=$('#storyEvent');
+ e.classList.remove('visible'); void e.offsetWidth;
+ e.textContent=step===3?'TOM: „Die Noten sind ein bisschen durcheinander!“':'JULIA: „Noch zwei Aufgaben, dann üben wir gemeinsam!“';
+ e.classList.add('visible');
+}
+function guess(i){if(paused||locked||roundEnd||waitingContext)return;result(i===target,false,notes[i].name)}
+function tick(now){const dt=Math.min(1000,Math.max(0,now-last));last=now;if(!paused&&!roundEnd){if(locked&&nextAt&&now>=nextAt){nextAt=0;if(shown>=LEVEL_SIZE)finish();else{locked=false;weightedNext()}}if(!locked&&speed!==0){remaining=Math.max(0,remaining-dt);$('#bar').style.width=(remaining/times[speed]*100)+'%';if(remaining<=0)result(false,true)}}frame=requestAnimationFrame(tick)}
+function reset(all){answers=[];if(endingTimer){window.clearTimeout(endingTimer);endingTimer=0;}$('.story').classList.remove('caught','escaped');$('#storyEvent').classList.remove('visible');monsterGap=18;$('#runnerMonster').style.left='21%';$('#runnerMonster').classList.remove('near');$('#sceneDialogue').textContent=DAILY_MODE?'TOM: „Fünf Noten für heute. Du schaffst das!“':round===1?'TOM: „Nur noch zehn Noten, Julia. Ich helfe dir!“ – JULIA: „Dann los!“':round<=3?'KAPITEL 1: Julia übt neue Töne – Tom feuert sie an.':round<=6?'KAPITEL 2: Die Bandprobe ruft. Julia übt weiter im Keyboardraum.':'KAPITEL 3: Festivalvorbereitung! Julia und Tom spielen weiter Noten.';closing=false;if(all){correct=0;attempts=0;weak=[1,1,1,1,1]}range=Number($('#range').value);speed=Number($('#speed').value);shown=0;correct=0;attempts=0;previous=-1;wasCaught=false;juliaPos=39;tomPos=7;paused=false;locked=false;roundEnd=false;nextAt=0;$('#finish').hidden=true;$('#pause').disabled=false;$('#pause').textContent='Pause';$('#roundstatus').textContent='LOS!';$('#storytext').textContent='JULIA & TOM, LOS!';$('#julia').style.left=juliaPos+'%';$('#tom').style.left=tomPos+'%';$('#julia').classList.remove('run');$('#tom').classList.remove('cheer');score();weightedNext();last=performance.now()}
+$('#range').addEventListener('change',()=>reset(false));$('#speed').addEventListener('change',()=>reset(false));$('#restart').addEventListener('click',()=>reset(false));$('#nextLevel').addEventListener('click',()=>{if(!roundEnd||correct<8)return;round=Math.min(unlocked,round+1);if(round>=2&&range===3){range=5;$('#range').value='5'}reset(false)});$('#again').addEventListener('click',()=>reset(false));function quit(){saveProgress();if(window.parent&&window.parent!==window){if(DAILY_MODE)window.parent.postMessage({type:'arcade-request-home',runId},'*');else window.parent.postMessage({type:'arcade-request-home'},'*');return}window.location.href='Arcade_Start.html'}$('#exitRound').addEventListener('click',quit);$('#quit').addEventListener('click',quit);
+$('#midiConnect').addEventListener('click',connectMidi);
+$('#pause').addEventListener('click',()=>{if(roundEnd)return;paused=!paused;$('#pause').textContent=paused?'Weiter':'Pause';if(paused){$('#message').textContent='PAUSE';$('#hint').textContent='Drücke Weiter, wenn du bereit bist.'}else{$('#hint').textContent='Weiter geht’s!';if(!locked)$('#message').textContent='Welche Taste passt?';last=performance.now()}checkpoint()});
+$('#sound').addEventListener('click',()=>{sound=!sound;$('#sound').textContent='Ton: '+(sound?'an':'aus');$('#sound').setAttribute('aria-pressed',String(sound));if(sound)audio(notes[target].midi)});
+window.addEventListener('keydown',e=>{if(e.repeat||['SELECT','BUTTON','INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;let n=Number(e.key);if(n>=1&&n<=range){e.preventDefault();guess(n-1)}});
+
+function checkpoint(){if(!DAILY_MODE||waitingContext)return;try{window.parent.postMessage({type:'arcade-stage-progress',kind:'notes',runId,progress:{kind:'notes',answers,target,range,answered:locked,paused}},'*')}catch(e){}}
+window.addEventListener('message',event=>{const r=event.data;if(event.source!==window.parent||!r||r.type!=='arcade-restore'||r.kind!=='notes'||typeof r.runId!=='string'||restoredRun===r.runId)return;runId=r.runId;restoredRun=runId;waitingContext=false;const s=r.progress;
+ if(s&&s.kind==='notes'&&Array.isArray(s.answers)&&s.answers.length<=5&&s.answers.every(a=>a&&typeof a.ok==='boolean')){answers=s.answers;shown=answers.length;attempts=shown;correct=answers.filter(a=>a.ok).length;range=[3,5].includes(s.range)?s.range:range;$('#range').value=String(range);score();if(shown===5){finish();return}locked=false;roundEnd=false;if(!s.answered&&Number.isInteger(s.target)&&s.target>=0&&s.target<range){target=s.target;draw()}else weightedNext();paused=!!s.paused;$('#pause').textContent=paused?'Weiter':'Pause'}else checkpoint();
+});
+
+$('#sound').textContent='Ton: an';$('#sound').setAttribute('aria-pressed','true');loadProgress();reset(false);broadcast();frame=requestAnimationFrame(tick);if(waitingContext)window.parent.postMessage({type:'arcade-ready',kind:'notes'},'*');
+})();
+</script></body></html>
