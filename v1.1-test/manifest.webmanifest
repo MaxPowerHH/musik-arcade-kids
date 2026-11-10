@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "Musik-Arcade – Testversion",
+  "short_name": "Musik-Arcade",
+  "lang": "de",
+  "description": "Vier Musikübungen mit Julia und Tom. Testversion ohne Konten oder echte Schülerdaten.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#192343",
+  "theme_color": "#192343",
+  "icons": [
+    {
+      "src": "releases/full02-645f0573-pwa01/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "releases/full02-645f0573-pwa01/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

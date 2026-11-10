@@ -1,0 +1,104 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>Musikschulplaner · Touch/MIDI und Rhythmus · Pilot v0.5 – im Arcade-Hub startbar</title><style>
+:root{font-family:system-ui,-apple-system,sans-serif;background:#111827;color:#f8fafc;font-synthesis:none}*{box-sizing:border-box}body{margin:0;padding:18px}main{max-width:890px;margin:auto}h1{font-size:clamp(1.6rem,5vw,2.4rem);margin:12px 0}.sub{color:#b6c3d6}section{background:#1f2937;border:1px solid #425166;padding:16px;border-radius:15px;margin:14px 0}button,select,input{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:12px;color:#fff;background:#364967}button:focus-visible,select:focus-visible{outline:3px solid #fde68a;outline-offset:2px}.control{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.control label{display:flex;gap:8px;align-items:center}.control select{padding:10px;border:1px solid #7b8aa0;border-radius:8px;background:#101b2c;color:white}.piano{position:relative;display:flex;height:205px;max-width:840px;margin:20px auto 4px;touch-action:none;user-select:none;-webkit-user-select:none}.white{flex:1;border-radius:0 0 10px 10px;background:#f3f5f6;border:2px solid #121826;color:#232b37;display:flex;align-items:end;justify-content:center;padding-bottom:16px;font-weight:bold;font-size:1.1rem;touch-action:none}.white.active{background:#b8e4ff}.black{position:absolute;z-index:2;top:0;width:8%;height:61%;background:#131b2b;border:2px solid #030712;border-radius:0 0 8px 8px;box-shadow:1px 3px 5px #0008;touch-action:none}.black.active{background:#526996}.white,.black{transition:background .06s} .stat{font-size:1.05rem}.target{font-size:2rem;font-weight:800;color:#b9f7d2}.good{color:#a7f3d0}.bad{color:#fda4af}.muted{color:#b6c3d6;font-size:.9rem}.pill{background:#243a53;border-radius:99px;padding:5px 10px}.status{min-height:1.5em}#midiStatus{color:#d5e6ff} .small{padding:8px 12px}a{color:#a6dcff} @media(max-width:480px){section{padding:12px}.piano{height:160px}.white{font-size:.8rem;padding-bottom:12px}.black{width:8.5%}}
+.rhythm-note{display:inline-flex;align-items:center;justify-content:center;background:#11243c;border-radius:9px;border:1px solid #506c8e;padding:9px;min-width:52px;min-height:72px;font-weight:650}.rhythm-note svg{width:42px;height:52px}.rhythm-note strong{font-size:.78rem;margin-left:5px}.rhythm-seq{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:18px 0}.rhythm-seq .beat{font-size:.8rem;color:#bcd3ec}.rhythm-current{outline:3px solid #b9f7d2}.hitline{display:flex;gap:6px;flex-wrap:wrap}.hit{background:#163d38;padding:5px 10px;border-radius:6px}.miss{background:#5b2634;padding:5px 10px;border-radius:6px}.modeTabs button[aria-pressed=true]{background:#167a74}.rhythm-only{display:none}.rhythm-only.visible{display:block}
+.rhythm-grid{display:grid!important;grid-template-columns:repeat(8,minmax(34px,1fr));gap:4px;align-items:stretch;overflow-x:auto;padding:6px 0}.rhythm-slot{display:flex;flex-direction:column;min-width:34px;min-height:85px;align-items:center;justify-content:space-between;border:2px solid #6579a3;border-radius:7px;background:#15213c;padding:7px 1px;white-space:nowrap}.rhythm-symbol{font-size:clamp(19px,3vw,29px)}.rhythm-count{font-size:17px;font-weight:750}.rhythm-current{border-color:#fbd16c;background:#3e4452;box-shadow:inset 0 0 0 2px #fbd16c}.rhythm-slot[title*="Pause"] .rhythm-symbol{color:#fbd16c}@media(max-width:520px){.rhythm-grid{gap:2px}.rhythm-slot{min-width:30px;padding:5px 0}}
+ .original-cast{display:flex;justify-content:center;gap:12px;margin:6px 0}.original-cast img{height:95px;width:85px;object-fit:contain;} </style></head><body><main>
+<div class="original-cast" aria-label="Nicos originale Figuren"><img src="tom_sprite.png" alt="Tom"><img src="julia_sprite.png" alt="Julia"><img src="naemi_sprite.png" alt="Naemi"><img src="sophia_sprite.png" alt="Sophia"></div><h1>🎹 Arcade · Klavier, MIDI & Rhythmus · Pilot v0.5 – im Arcade-Hub startbar</h1><p class="sub">Teil der isolierten Musikschul-Arcade: Julia und Tom üben gemeinsam · gemeinsame Tastatur für Noten und Rhythmus · keine Schülerkonten, keine Speicherung.</p>
+<section><div class="control"><label>Klang <select id="timbre"><option value="piano">Piano (synthetischer Testklang)</option><option value="dx7">DX7-artiges FM-E-Piano</option></select></label><label><input id="sound" type="checkbox" checked> App-Klang an</label><label>Lautstärke <input id="vol" type="range" min="0" max="100" value="40"></label></div><p class="muted">Piano ist hier zunächst eine eigene synthetische Annäherung, <b>keine authentische Samplebibliothek</b>. DX7 ist eine eigenständige FM-Klangannäherung, keine kopierten Yamaha-Presets.</p></section>
+<section><div class="control"><button id="start" type="button">▶ Audio aktivieren & Übung starten</button><button id="connect" type="button">USB-MIDI verbinden (Mac/Chrome)</button></div><p id="midiStatus" class="status" aria-live="polite">MIDI: noch nicht verbunden · Auf iPad/Safari nicht nativ verfügbar.</p><p class="muted">Touch funktioniert ohne MIDI. MIDI-Noten C4–C5 werden unterstützt; angeschlossene Geräte mit eigenem Klang können App-Klang abschalten.</p></section>
+<section><div class="control modeTabs"><button type="button" id="noteMode" aria-pressed="true">🎼 Noten erkennen</button><button type="button" id="rhythmMode" aria-pressed="false">🥁 Rhythmus nachspielen</button></div><p class="muted">Beide Übungen verwenden dieselbe Bildschirmtastatur oder eingehende MIDI-Tasten. Der Eingabeklang bleibt Piano/DX7 umschaltbar.</p></section>
+<section id="notePanel"><div class="control"><span class="pill" id="counter">Aufgabe 0 / 10</span><span class="pill" id="score">Richtig: 0</span></div><p>Spiele die gesuchte Taste:</p><div id="target" class="target">—</div><p id="feedback" class="status" aria-live="polite">Audio aktivieren und Übung starten.</p><p class="muted">Für diesen technischen Test werden Notennamen angezeigt; echte Notenschrift und Lehrwerksfolge sind noch nicht verbunden. 10 Aufgaben, mindestens 8 richtig. Schwarze Tasten dienen zum Testen und werden als falsche Antwort gewertet, wenn eine weiße Note gefragt wird.</p></section>
+<section id="rhythmPanel" class="rhythm-only"><h2>Rhythmus lesen und spielen – eindeutige Achtelpositionen</h2><p class="muted">Jedes Feld ist genau eine Achtelposition (1 + 2 + 3 + 4 +); der gelbe Rahmen zeigt die gerade laufende Position. Nur bei einer dargestellten Note anschlagen. Zum Metronom auf irgendeiner Taste klopfen. Ausgewertet werden <b>Anschlagszeitpunkte</b>, keine gehaltenen Tondauern. Die Regel ist für Touch und MIDI identisch.</p>
+<div class="control"><label>Tempo <select id="bpm"><option>60</option><option selected>80</option><option>100</option></select></label><label><input type="checkbox" id="metro" checked> Metronom an</label><label>Metronom-Lautstärke <input id="metroVol" type="range" min="0" max="100" value="78" aria-label="Metronom-Lautstärke separat vom Piano"></label><button type="button" id="startRhythm">▶ Einzählen & spielen</button></div>
+<p id="rhythmText" role="status" aria-live="polite">Wähle diesen Modus und starte die Rhythmusübung.</p><div class="rhythm-seq" id="rhythmNotation" aria-label="Rhythmusnotation"></div><div class="hitline" id="rhythmResult"></div>
+<p class="muted">4/4-Takt · vier Einzählschläge · ±180 ms Test-Toleranz · MIDI-Note-On oder Touch. Eine kurze Abfolge wird nach jedem Durchgang gewechselt. Bewertung erfolgt ab dem musikalischen Zeitpunkt, nicht ab dem Klangbeginn.</p></section>
+<section><h2>Gemeinsame Touch-/MIDI-Tastatur</h2><div class="piano" id="piano" role="group" aria-label="Klaviertastatur C4 bis C5"></div><p class="muted">In beiden Modi dieselben Tasten: im Rhythmusmodus beliebige Taste anschlagen.</p></section><section><strong>Technikstatus</strong><p class="muted" id="tech">Die Web-MIDI-Verbindung setzt einen unterstützten Browser und Geräteberechtigung voraus. iPad benötigt später eine native Core-MIDI-Bridge. Kein Web-MIDI-Versprechen für Safari oder iPad-Chrome.</p></section>
+<script src="arcade_audio.js"></script><script>
+'use strict';
+const keys=[{n:60,name:'C'},{n:61,name:'C♯',black:0},{n:62,name:'D'},{n:63,name:'D♯',black:1},{n:64,name:'E'},{n:65,name:'F'},{n:66,name:'F♯',black:3},{n:67,name:'G'},{n:68,name:'G♯',black:4},{n:69,name:'A'},{n:70,name:'A♯',black:5},{n:71,name:'H'},{n:72,name:'C5'}];
+const targets=[60,62,64,65,67], names={60:'C',62:'D',64:'E',65:'F',67:'G'};const byId=id=>document.getElementById(id);const piano=byId('piano');const keyEls=new Map();
+let audio=null,master=null,voices=new Map(),midiAccess=null,playing=false,index=0,correct=0,current=60,responded=false,serial=0,lastMidi=new Map();let sequence=[60,62,64,65,67,62,60,67,64,65];
+function build(){for(const k of keys.filter(x=>x.black===undefined)){let b=document.createElement('button');b.type='button';b.className='white';b.dataset.note=k.n;b.textContent=k.name;piano.appendChild(b);keyEls.set(k.n,b)}for(const k of keys.filter(x=>x.black!==undefined)){let b=document.createElement('button');b.type='button';b.className='black';b.dataset.note=k.n;b.setAttribute('aria-label',k.name);b.style.left=`calc(${(k.black+1)/8*100}% - 4%)`;piano.appendChild(b);keyEls.set(k.n,b)}}build();
+function setupAudio(){if(!audio){audio=new (window.AudioContext||window.webkitAudioContext)();master=audio.createGain();master.gain.value=.35;master.connect(audio.destination)}audio.resume();byId('tech').textContent='Web Audio aktiviert. MIDI-Status bitte separat prüfen.'}
+function volume(){return Number(byId('vol').value)/100*.22}
+function voiceOn(note,velocity=100,id=note){if(!byId('sound').checked)return;setupAudio();voiceOff(id);const f=440*Math.pow(2,(note-69)/12),t=audio.currentTime;let out=audio.createGain();out.gain.setValueAtTime(.0001,t);out.gain.exponentialRampToValueAtTime(Math.max(.001,volume()*velocity/127),t+.009);out.connect(master);let oscs=[],envelopes=[];if(byId('timbre').value==='dx7'){let mod=audio.createOscillator(),modGain=audio.createGain(),carrier=audio.createOscillator();mod.type='sine';mod.frequency.value=f*2;modGain.gain.setValueAtTime(f*2.2,t);modGain.gain.exponentialRampToValueAtTime(3,t+1.4);mod.connect(modGain);modGain.connect(carrier.frequency);carrier.type='sine';carrier.frequency.value=f;carrier.connect(out);mod.start(t);carrier.start(t);oscs=[mod,carrier];envelopes=[modGain]}else{oscs=ArcadePiano.attachPianoOscillators(audio,out,f,t)}voices.set(id,{out,oscs,envelopes});}
+function voiceOff(id){let v=voices.get(id);if(!v)return;let t=audio?.currentTime||0;try{v.out.gain.cancelScheduledValues(t);v.out.gain.setValueAtTime(Math.max(v.out.gain.value,.0001),t);v.out.gain.exponentialRampToValueAtTime(.0001,t+.25);for(let o of v.oscs)o.stop(t+.29)}catch{}voices.delete(id)}
+function stopAll(){for(const id of [...voices.keys()])voiceOff(id);for(let b of keyEls.values())b.classList.remove('active')}
+function answer(note,source='touch'){let b=keyEls.get(note);if(b)b.classList.add('active');if(activeMode==='rhythm'){rhythmTap(source,note);return}if(!playing||responded)return;responded=true;const good=note===current;if(good)correct++;byId('score').textContent='Richtig: '+correct;byId('feedback').className='status '+(good?'good':'bad');byId('feedback').textContent=good?'✓ Richtig!':'✗ Gesucht war '+names[current];let run=serial;setTimeout(()=>{if(run!==serial)return;if(index===10){playing=false;byId('target').textContent=(correct>=8?'Bestanden! ':'Wiederholen. ')+correct+'/10';byId('feedback').textContent=correct>=8?'Mindestens 8 richtig – geschafft.':'Mindestens 8 richtige Antworten benötigt.';return}next()},650)}
+function next(){index++;responded=false;current=sequence[index-1];byId('counter').textContent='Aufgabe '+index+' / 10';byId('target').textContent=names[current];byId('feedback').textContent='';byId('feedback').className='status'}
+function start(){if(activeMode!=='notes')showMode('notes');serial++;stopAll();setupAudio();index=0;correct=0;playing=true;byId('score').textContent='Richtig: 0';next()}
+byId('start').addEventListener('click',start);byId('vol').addEventListener('input',()=>{if(master)master.gain.value=1});byId('sound').addEventListener('change',()=>{if(!byId('sound').checked)stopAll()});
+const held=new Map();piano.addEventListener('pointerdown',e=>{let b=e.target.closest('[data-note]');if(!b)return;e.preventDefault();let n=Number(b.dataset.note),id='touch-'+e.pointerId;held.set(e.pointerId,n);try{piano.setPointerCapture(e.pointerId)}catch{}voiceOn(n,100,id);answer(n)});function release(e){let n=held.get(e.pointerId);if(n===undefined)return;held.delete(e.pointerId);voiceOff('touch-'+e.pointerId);if(![...held.values()].includes(n))keyEls.get(n)?.classList.remove('active')}piano.addEventListener('pointerup',release);piano.addEventListener('pointercancel',release);
+function midiMsg(e){let [status,n,velocity]=e.data,cmd=status&0xf0;let id='midi-'+(status&15)+'-'+n;if(cmd===0x90&&velocity>0){const now=performance.now();if(now-(lastMidi.get(id)||0)<35)return;lastMidi.set(id,now);voiceOn(n,velocity,id);answer(n,'midi')}else if(cmd===0x80||(cmd===0x90&&velocity===0)){voiceOff(id);keyEls.get(n)?.classList.remove('active')}}
+function attachMidi(){if(!midiAccess)return;let inputs=[...midiAccess.inputs.values()];for(let inp of inputs)inp.onmidimessage=midiMsg;byId('midiStatus').textContent=inputs.length?'MIDI: '+inputs.map(i=>i.name||'Keyboard').join(', '):'MIDI-Berechtigung aktiv, aber kein Keyboard erkannt. USB-Verbindung prüfen.'}
+byId('connect').addEventListener('click',async()=>{if(!navigator.requestMIDIAccess){byId('midiStatus').textContent='Web MIDI hier nicht verfügbar. Auf iPad/Safari ist dafür später eine native Bridge nötig.';return}try{midiAccess=await navigator.requestMIDIAccess({sysex:false});midiAccess.onstatechange=attachMidi;attachMidi()}catch(e){byId('midiStatus').textContent='MIDI nicht freigegeben: '+(e.message||String(e))}});
+
+// One input pipeline: answer(note) dispatches pitch exercises and rhythm onsets.
+let activeMode='notes',rhythmRun=0,patternIndex=0,rhythmStart=0,rhythmHits=[],rhythmBusy=false,rhythmTimers=[];
+const rhythmPatterns=[
+ [{b:0,v:'♩',t:'Viertel'},{b:1,v:'♩',t:'Viertel'},{b:2,v:'♩',t:'Viertel'},{b:3,v:'♩',t:'Viertel'}],
+ [{b:0,v:'♩',t:'Viertel'},{b:1,v:'♪',t:'Achtel'},{b:1.5,v:'♪',t:'Achtel'},{b:2,v:'♩',t:'Viertel'},{b:3,v:'♩',t:'Viertel'}],
+ [{b:0,v:'♪',t:'Achtel'},{b:.5,v:'♪',t:'Achtel'},{b:1,v:'♪',t:'Achtel'},{b:1.5,v:'♪',t:'Achtel'},{b:2,v:'♩',t:'Viertel'},{b:3,v:'♩',t:'Viertel'}],
+ [{b:0,v:'♩',t:'Viertel'},{b:1,v:'𝄽',t:'Viertelpause',rest:true},{b:2,v:'♪',t:'Achtel'},{b:2.5,v:'♪',t:'Achtel'},{b:3,v:'♩',t:'Viertel'}],
+ [{b:0,v:'♩',t:'Viertel'},{b:1.5,v:'♪',t:'Achtel auf + nach 2'},{b:2,v:'♩',t:'Viertel'},{b:3.5,v:'♪',t:'Achtel auf + nach 4'}]
+];
+function rhythmLabel(b){return String(Math.floor(b)+1)+(b%1?' +':'')}
+function rhythmExpected(pattern){return pattern.filter(x=>!x.rest).map(x=>x.b)}
+function clearRhythm(){rhythmRun++;for(const t of rhythmTimers)clearTimeout(t);rhythmTimers=[];rhythmBusy=false;rhythmHits=[];}
+function showMode(mode){clearRhythm();serial++;playing=false;stopAll();activeMode=mode;
+  byId('notePanel').style.display=mode==='notes'?'block':'none';byId('rhythmPanel').classList.toggle('visible',mode==='rhythm');
+  byId('noteMode').setAttribute('aria-pressed',String(mode==='notes'));byId('rhythmMode').setAttribute('aria-pressed',String(mode==='rhythm'));
+  byId('rhythmText').textContent=mode==='rhythm'?'Starte die Übung und folge den vier Einzählschlägen.':'';
+  if(mode==='rhythm')drawPattern();}
+byId('noteMode').addEventListener('click',()=>showMode('notes'));byId('rhythmMode').addEventListener('click',()=>showMode('rhythm'));
+function drawPattern(){
+ const arr=rhythmPatterns[patternIndex%rhythmPatterns.length],el=byId('rhythmNotation');el.replaceChildren();
+ el.classList.add('rhythm-grid');el.setAttribute('aria-label','4/4-Takt in acht Achtelpositionen: 1 und 2 und 3 und 4 und');
+ for(let i=0;i<8;i++){
+  const b=i/2,n=arr.find(x=>x.b===b),cell=document.createElement('span');
+  cell.className='rhythm-slot';cell.dataset.slot=String(i);
+  const glyph=document.createElement('strong');glyph.className='rhythm-symbol';glyph.textContent=n?n.v:'·';
+  const label=document.createElement('small');label.className='rhythm-count';label.textContent=i%2?'+':String(i/2+1);
+  const help=n?(n.rest?'Pause':n.t):'Kein Anschlag';
+  cell.title=rhythmLabel(b)+' – '+help;
+  cell.setAttribute('aria-label',rhythmLabel(b)+' – '+help);
+  cell.append(glyph,label);el.append(cell);
+ }
+}
+function showRhythmCursor(index){
+ byId('rhythmNotation').querySelectorAll('.rhythm-slot').forEach((el,i)=>el.classList.toggle('rhythm-current',i===index));
+}
+function clickMetronome(at,accent){
+ if(!byId('metro').checked)return;setupAudio();
+ const vol=Number(byId('metroVol').value)/100;if(vol<=0)return;
+ const osc=audio.createOscillator(),gain=audio.createGain();osc.type='triangle';
+ osc.frequency.value=accent?1200:880;
+ // Independent metronome bus, never muted by the piano/master gain.
+ // Safety ceiling leaves significant headroom even on accented beats.
+ const level=(accent?.30:.23)*vol;
+ gain.gain.setValueAtTime(.0001,at);
+ gain.gain.exponentialRampToValueAtTime(level,at+.003);
+ gain.gain.exponentialRampToValueAtTime(.0001,at+.078);
+ osc.connect(gain);gain.connect(audio.destination);osc.start(at);osc.stop(at+.082);
+}
+function queue(fn,ms){rhythmTimers.push(setTimeout(fn,Math.max(0,ms)))}
+function beginRhythm(){clearRhythm();setupAudio();const run=rhythmRun,bpm=Number(byId('bpm').value),beat=60000/bpm;drawPattern();rhythmBusy=true;
+ byId('rhythmResult').replaceChildren();byId('rhythmText').textContent='Einzählen: 1 · 2 · 3 · 4';
+ // Reference clock uses performance.now; audio scheduling is independent from scoring.
+ const countStart=performance.now()+180;rhythmStart=countStart+4*beat;
+ const actx=audio.currentTime+(countStart-performance.now())/1000;
+ for(let i=0;i<8;i++){clickMetronome(actx+i*beat/1000,i%4===0);if(i<4)queue(()=>{if(run===rhythmRun)byId('rhythmText').textContent='Einzählen: '+(i+1)+' / 4'},countStart+i*beat-performance.now());}
+ queue(()=>{if(run===rhythmRun)byId('rhythmText').textContent='Jetzt! Spiele den notierten Rhythmus auf irgendeiner Taste.'},rhythmStart-performance.now());
+ for(let slot=0;slot<8;slot++)queue(()=>{if(run===rhythmRun)showRhythmCursor(slot)},rhythmStart+slot*beat/2-performance.now());
+ queue(()=>{if(run===rhythmRun)showRhythmCursor(-1)},rhythmStart+4*beat-performance.now());
+ queue(()=>{if(run===rhythmRun)finishRhythm(beat)},rhythmStart+4*beat+300-performance.now());}
+function rhythmTap(source,note){if(!rhythmBusy)return;const dt=performance.now()-rhythmStart;if(dt< -80||dt>4*60000/Number(byId('bpm').value)+260)return;
+ rhythmHits.push({ms:dt,source,note});byId('rhythmText').textContent='Anschläge erkannt: '+rhythmHits.length+' · weiter zum Taktende spielen.'}
+function finishRhythm(beat){rhythmBusy=false;const expected=rhythmExpected(rhythmPatterns[patternIndex%rhythmPatterns.length]).map(b=>b*beat),used=new Set(),result=[];let correctHits=0;
+ for(const exp of expected){let best=-1,delta=Infinity;for(let j=0;j<rhythmHits.length;j++){if(used.has(j))continue;const d=Math.abs(rhythmHits[j].ms-exp);if(d<delta){delta=d;best=j}}
+ if(best>=0&&delta<=180){used.add(best);correctHits++;result.push({good:true,text:(Math.round(rhythmHits[best].ms-exp)>=0?'+':'')+Math.round(rhythmHits[best].ms-exp)+' ms'})}else result.push({good:false,text:'Fehlt bei '+(Math.round(exp/beat*2)/2+1)});}
+ const extra=rhythmHits.length-used.size;byId('rhythmResult').replaceChildren();for(const h of result){let s=document.createElement('span');s.className=h.good?'hit':'miss';s.textContent=h.text;byId('rhythmResult').appendChild(s)}if(extra){let s=document.createElement('span');s.className='miss';s.textContent=extra+' zusätzliche Anschläge';byId('rhythmResult').appendChild(s)}
+ byId('rhythmText').textContent='Auswertung: '+correctHits+' / '+expected.length+' Einsätze im ±180-ms-Fenster'+(extra?' · '+extra+' zusätzliche Anschläge':'')+'. Nächster Takt beim erneuten Start.';patternIndex++;}
+byId('startRhythm').addEventListener('click',beginRhythm);
+if(location.hash.slice(1)==='rhythm')showMode('rhythm');
+</script></main></body></html>

@@ -1,0 +1,41 @@
+{
+  "test_version": "ARCADE-V1.1-LAYOUTTEST-20261109",
+  "game_build": "ARCADE-KANDIDAT-20261108-FULL02",
+  "release": "full02-645f0573-pwa01",
+  "reference_zip_sha256": "645f0573da5ad7bf6af4097322912a4fc04995c89f419059d2d96f0ff7b047bf",
+  "game_files_sha256": {
+    "Arcade_Start.html": "373bbb75e4aca7235ed943f57c675025c62429f170d6ac18afca44753529cf73",
+    "Notenfresser.html": "adedb2dce9b88440c7f96975a7ca8312d9e8d745b742d5e507720cd8fe8a931e",
+    "Drei_Musikspiele.html": "20217f2548fd46dd2213089031d96d3f61a945aff62240743d71db54e61819f0",
+    "Arcade_Touch_MIDI_Rhythmus.html": "24380670525dcab38e079bebe141713b4a6bcee0fd5b41d1f06f481e55b09857",
+    "arcade_audio.js": "4ea7a0f092ff00e69b9ab952f826c169ae308d23eab71999f219ec9e0e4962d9",
+    "arcade_day.js": "06d7306e7c87c3f89fc20d914d0a25c6133386c2f4edb17e337995872d60c8ef",
+    "julia_sprite.png": "26aaa44424d52b2158553f71b7df9f894ff4b58a2f74ebbc069ee30b6d373370",
+    "tom_sprite.png": "5870b233ddd8c514f0fa8b2e19246fa9490af13dcd3c7f30186f57e0d2c10838",
+    "naemi_sprite.png": "dd4bf27a7e7d27940fb91f9487af370849d822a9a615f619d55082518356d8c6",
+    "sophia_sprite.png": "a6ca7c0e4b2402ec8503e5c46ebd5ddf9c70b7a26afd1c317a87940208ac2192"
+  },
+  "cache_id": "v11-layouttest-7b9835d458610cf7",
+  "files_sha256": {
+    ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "index.html": "78764a06d51c50fe5ba7afadec97c0600d3c62324db23df6c99743998655bfaf",
+    "manifest.webmanifest": "9b341eec939ee2dc26e7df4105b6dae3e1ebc8e04025d52af3a5fb14527addc9",
+    "offline.html": "e7c816564acdf629aa74650adc9ea5770dbfe30048d5b937cf6391e69443db51",
+    "releases/full02-645f0573-pwa01/Arcade_Start.html": "373bbb75e4aca7235ed943f57c675025c62429f170d6ac18afca44753529cf73",
+    "releases/full02-645f0573-pwa01/Arcade_Touch_MIDI_Rhythmus.html": "24380670525dcab38e079bebe141713b4a6bcee0fd5b41d1f06f481e55b09857",
+    "releases/full02-645f0573-pwa01/Drei_Musikspiele.html": "20217f2548fd46dd2213089031d96d3f61a945aff62240743d71db54e61819f0",
+    "releases/full02-645f0573-pwa01/Notenfresser.html": "adedb2dce9b88440c7f96975a7ca8312d9e8d745b742d5e507720cd8fe8a931e",
+    "releases/full02-645f0573-pwa01/arcade_audio.js": "4ea7a0f092ff00e69b9ab952f826c169ae308d23eab71999f219ec9e0e4962d9",
+    "releases/full02-645f0573-pwa01/arcade_day.js": "06d7306e7c87c3f89fc20d914d0a25c6133386c2f4edb17e337995872d60c8ef",
+    "releases/full02-645f0573-pwa01/icons/icon-180.png": "193f41984ee5ee05131b419b2ae1bc171b3dce780aec042e399d554a1c2cacc5",
+    "releases/full02-645f0573-pwa01/icons/icon-192.png": "687fdceade59f9fb607c9d4caa6ccddb3d7d13e96ded772c9ff489c26142e90d",
+    "releases/full02-645f0573-pwa01/icons/icon-512.png": "c2cd1feedb0d7809a9f44917bacc5775128a3bcc73cfa3de1f147569bb87309d",
+    "releases/full02-645f0573-pwa01/julia_sprite.png": "26aaa44424d52b2158553f71b7df9f894ff4b58a2f74ebbc069ee30b6d373370",
+    "releases/full02-645f0573-pwa01/naemi_sprite.png": "dd4bf27a7e7d27940fb91f9487af370849d822a9a615f619d55082518356d8c6",
+    "releases/full02-645f0573-pwa01/pwa.css": "90d1f90a0b0a64927068ccc6d9e2087e80ba17d1b38e85c5943a2f169ab1185d",
+    "releases/full02-645f0573-pwa01/pwa.js": "7d3302073670c1fe4125807c54b0c86ae6b942ee327790341fb1537f652b02c1",
+    "releases/full02-645f0573-pwa01/sophia_sprite.png": "a6ca7c0e4b2402ec8503e5c46ebd5ddf9c70b7a26afd1c317a87940208ac2192",
+    "releases/full02-645f0573-pwa01/tom_sprite.png": "5870b233ddd8c514f0fa8b2e19246fa9490af13dcd3c7f30186f57e0d2c10838",
+    "sw.js": "532d786b05b01f1640a1bbf83f033e1e1e24b3ff3ff4aa29b54bdfa95f56682b"
+  }
+}
